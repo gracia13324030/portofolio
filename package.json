@@ -1,0 +1,12 @@
+{
+  "name": "portofolio-gracia",
+  "version": "1.0.0",
+  "description": "Portofolio pribadi — HTML, CSS, JS, disajikan lewat server Node.js/Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
