@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Kendali Mesin - EcoSystem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef4ea;
+      color: #1a3a22;
+    }
+
+    /* NAVBAR SAMA PERSIS DENGAN DASHBOARD */
+    .top-navbar {
+      background: #ffffff;
+      box-shadow: 0 2px 12px rgba(0, 32, 0, 0.06);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #cde2cf;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1a6e3a, #2d9e55);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1f452f;
+      font-size: 0.9rem;
+    }
+
+    .nav-links li a.active {
+      background: #2c8c4a;
+      color: white;
+      box-shadow: 0 4px 10px rgba(44, 140, 74, 0.25);
+    }
+
+    .nav-links li a:not(.active):hover {
+      background: #e1f0e4;
+      transform: translateY(-2px);
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 2rem;
+    }
+
+    /* BANNER WELCOME SAMA DENGAN DASHBOARD */
+    .welcome-banner {
+      background: white;
+      border-radius: 1.8rem;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      border: 1px solid #d5e8d1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .welcome-text h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #166a38;
+      margin-bottom: 0.3rem;
+    }
+
+    .welcome-text p {
+      font-size: 0.85rem;
+      color: #3a6b48;
+    }
+
+    .datetime-box {
+      text-align: right;
+      background: #edf7ea;
+      padding: 0.5rem 1.2rem;
+      border-radius: 1rem;
+    }
+
+    .datetime-box .time {
+      font-size: 1.3rem;
+      font-weight: 700;
+      font-family: monospace;
+    }
+
+    .datetime-box .date {
+      font-size: 0.65rem;
+      color: #5a7e64;
+    }
+
+    .system-status {
+      background: #edf7ea;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    /* STATS ROW SAMA DENGAN DASHBOARD */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 1.2rem;
+      padding: 0.8rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid #d5e8d1;
+      transition: 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .stat-icon {
+      width: 45px;
+      height: 45px;
+      background: #eaf5e6;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #2c8c4a;
+    }
+
+    .stat-info h4 {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6c8e72;
+    }
+
+    .stat-info .value {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #1f552f;
+    }
+
+    /* DUAL MODE SECTION */
+    .mode-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mode-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.3rem;
+      border: 1px solid #d5e8d1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .mode-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #cde2cf;
+    }
+
+    .estimasi-teks {
+      font-size: 0.7rem;
+      color: #6c8e72;
+      margin-bottom: 0.8rem;
+    }
+
+    /* STATUS BOX */
+    .status-box {
+      background: #f0f7ed;
+      border-radius: 1.2rem;
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: #5a7e64;
+    }
+
+    #statusMotor {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin: 0.3rem 0;
+    }
+
+    #statusMotor.hidup { color: #1e8540; }
+    #statusMotor.mati { color: #b34e3a; }
+    #statusMotor.proses { color: #e68a2e; animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .countdown {
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: monospace;
+      color: #2c8c4a;
+    }
+
+    /* TOMBOL BERAT */
+    .quick-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-quick {
+      background: #eaf5e6;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      color: #2c8c4a;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-quick:hover {
+      background: #2c8c4a;
+      color: white;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.8rem;
+    }
+
+    .input-group input {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      border-radius: 2rem;
+      border: 1px solid #c2ddbc;
+      font-size: 0.85rem;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #2c8c4a;
+    }
+
+    .btn-submit {
+      background: #2c8c4a;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background: #1e6d3b;
+    }
+
+    .kalkulasi-teks {
+      font-size: 0.75rem;
+      color: #5a7e64;
+    }
+
+    /* TOMBOL TIMER MANUAL */
+    .timer-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-timer {
+      background: #eaf5e6;
+      border: none;
+      padding: 0.5rem 0.8rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      color: #2c8c4a;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.7rem;
+    }
+
+    .btn-timer:hover {
+      background: #2c8c4a;
+      color: white;
+    }
+
+    .timer-input-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .timer-input-group input {
+      width: 80px;
+      padding: 0.6rem;
+      border-radius: 1rem;
+      border: 1px solid #c2ddbc;
+      text-align: center;
+    }
+
+    .timer-input-group select {
+      padding: 0.6rem;
+      border-radius: 1rem;
+      border: 1px solid #c2ddbc;
+      background: white;
+    }
+
+    .btn-start-timer {
+      background: #2c8c4a;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-start-timer:hover {
+      background: #1e6d3b;
+    }
+
+    /* TOMBOL KONTROL */
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.7rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-on {
+      background: #1e8540;
+      color: white;
+      box-shadow: 0 2px 8px rgba(30, 133, 64, 0.3);
+    }
+
+    .btn-off {
+      background: #b34e3a;
+      color: white;
+      box-shadow: 0 2px 8px rgba(179, 78, 58, 0.3);
+    }
+
+    .btn-stop-all {
+      background: #6c8e72;
+      color: white;
+    }
+
+    /* STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .stat {
+      background: #f0f7ed;
+      border-radius: 1rem;
+      padding: 0.8rem;
+    }
+
+    .stat p {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #1e8540;
+    }
+
+    .stat span {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      color: #5a7e64;
+    }
+
+    .success-msg {
+      background: #d4edda;
+      color: #155724;
+      padding: 0.5rem;
+      border-radius: 0.8rem;
+      margin-top: 0.8rem;
+      text-align: center;
+      font-size: 0.7rem;
+    }
+
+    .footer-credit {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      font-size: 0.7rem;
+      color: #558a60;
+    }
+
+    @media (max-width: 768px) {
+      .top-navbar { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+      .nav-links { flex-wrap: wrap; }
+      .main-content { padding: 1rem; }
+      .welcome-banner { flex-direction: column; text-align: center; gap: 1rem; }
+      .datetime-box { text-align: center; }
+      .mode-section { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="top-navbar">
+  <div class="logo"><i class="fas fa-leaf"></i> EcoSystem</div>
+  <ul class="nav-links">
+    <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard Utama</a></li>
+    <li><a href="mesin.html" class="active"><i class="fas fa-industry"></i> Kendali Mesin</a></li>
+    <li><a href="sensor.html"><i class="fas fa-chart-line"></i> Monitoring Sensor</a></li>
+  </ul>
+</nav>
+
+<main class="main-content">
+  <!-- BANNER -->
+  <div class="welcome-banner">
+    <div class="welcome-text">
+      <h1><i class="fas fa-microchip"></i> Kendali Mesin Pencacah</h1>
+      <p>Sistem kontrol cerdas untuk pengolahan sampah organik</p>
+      <div class="system-status">
+        <i class="fas fa-plug"></i> Gateway: <strong id="statusGateway">🟡 Menghubungkan...</strong>
+        <i class="fas fa-microchip" style="margin-left: 12px;"></i> ESP32: <span id="statusEsp32">Menunggu koneksi</span>
+      </div>
+    </div>
+    <div class="datetime-box">
+      <div class="time" id="jamDigital">--:--:--</div>
+      <div class="date" id="tanggalDigital">--, --- --, ----</div>
+    </div>
+  </div>
+
+  <!-- STATISTIK RINGKASAN -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon"><i class="fas fa-database"></i></div>
+      <div class="stat-info">
+        <h4>TOTAL DATA SENSOR</h4>
+        <div class="value" id="totalData">--</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><i class="fas fa-clock"></i></div>
+      <div class="stat-info">
+        <h4>UPTIME SISTEM</h4>
+        <div class="value" id="uptime">--</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><i class="fas fa-gear"></i></div>
+      <div class="stat-info">
+        <h4>STATUS MESIN</h4>
+        <div class="value" id="statMesin">🟡 Menunggu</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><i class="fas fa-trash-alt"></i></div>
+      <div class="stat-info">
+        <h4>SAMPAH TERCACAH</h4>
+        <div class="value" id="totalSampah">-- kg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUAL MODE: BERAT + TIMER MANUAL -->
+  <div class="mode-section">
+    <!-- Mode Berat -->
+    <div class="mode-card">
+      <div class="mode-title"><i class="fas fa-weight-hanging"></i> Mode Berat Sampah</div>
+      <p class="estimasi-teks">Standar: 500 Gram = 3 Menit (180 Detik)</p>
+      <div class="quick-btns">
+        <button class="btn-quick" onclick="window.setGram(50)">50g</button>
+        <button class="btn-quick" onclick="window.setGram(250)">250g</button>
+        <button class="btn-quick" onclick="window.setGram(500)">500g</button>
+        <button class="btn-quick" onclick="window.setGram(1000)">1 Kg</button>
+      </div>
+      <div class="input-group">
+        <input type="number" id="inputGram" placeholder="Berat sampah (Gram)..." oninput="window.hitungEstimasi()">
+        <button class="btn-submit" onclick="window.prosesGram()">PROSES</button>
+      </div>
+      <div id="estimasiWaktu" class="kalkulasi-teks">Menunggu input sampah...</div>
+    </div>
+
+    <!-- Mode Timer Manual (DIPERBAIKI - LANGSUNG TELEPON ESP32) -->
+    <div class="mode-card">
+      <div class="mode-title"><i class="fas fa-hourglass-half"></i> Mode Timer Manual</div>
+      <p class="estimasi-teks">Atur durasi (detik/menit/jam) — Mesin akan berjalan fisik</p>
+      <div class="timer-btns">
+        <button class="btn-timer" onclick="setTimerPreset(5, 'detik')">5 detik</button>
+        <button class="btn-timer" onclick="setTimerPreset(10, 'detik')">10 detik</button>
+        <button class="btn-timer" onclick="setTimerPreset(30, 'detik')">30 detik</button>
+        <button class="btn-timer" onclick="setTimerPreset(1, 'menit')">1 menit</button>
+        <button class="btn-timer" onclick="setTimerPreset(5, 'menit')">5 menit</button>
+        <button class="btn-timer" onclick="setTimerPreset(10, 'menit')">10 menit</button>
+        <button class="btn-timer" onclick="setTimerPreset(1, 'jam')">1 jam</button>
+      </div>
+      <div class="timer-input-group">
+        <input type="number" id="timerValue" placeholder="Nilai" value="30">
+        <select id="timerUnit">
+          <option value="detik">Detik</option>
+          <option value="menit">Menit</option>
+          <option value="jam">Jam</option>
+        </select>
+        <button class="btn-start-timer" onclick="startTimerManual()">⏱️ JALANKAN</button>
+      </div>
+      <div id="timerInfo" class="kalkulasi-teks">💡 Pilih durasi atau input manual</div>
+      <div id="timerResult" class="success-msg" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- STATUS OPERASIONAL & KONTROL -->
+  <div class="mode-card" style="margin-bottom:1.5rem;">
+    <div class="status-box">
+      <div class="status-label">STATUS OPERASIONAL MESIN</div>
+      <div id="statusMotor" class="mati">STANDBY ⚪</div>
+      <div id="countdown" class="countdown"></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-on" onclick="window.kontrolManual('on')">▶️ PAKSA NYALA</button>
+      <button class="btn btn-off" onclick="window.kontrolManual('off')">⏹️ BERHENTI DARURAT</button>
+      <button class="btn btn-stop-all" onclick="stopAllTimers()">🛑 STOP SEMUA</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <p id="totalSiklus">0</p>
+        <span>Siklus Operasi</span>
+      </div>
+      <div class="stat">
+        <p id="totalGram">0</p>
+        <span>Total Terproses (g)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-credit">
+    <i class="fas fa-copyright"></i> 2026 Smart EcoSystem — Sistem Pencacah Organik Terintegrasi
+  </div>
+</main>
+
+<script>
+  // ============================================
+  // 1. JAM DIGITAL
+  // ============================================
+  function updateClock() {
+    const now = new Date();
+    const jam = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const tanggal = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const jamEl = document.getElementById('jamDigital');
+    const tglEl = document.getElementById('tanggalDigital');
+    if (jamEl) jamEl.innerText = jam;
+    if (tglEl) tglEl.innerText = tanggal;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ============================================
+  // 2. KONEKSI KE ESP32 & FUNGSI KONTROL
+  // ============================================
+  const IP_ESP32 = localStorage.getItem('esp32Ip') || '10.12.128.96';
+  document.getElementById('ipDisplay')?.setAttribute('data-ip', IP_ESP32);
+
+  function kontrolSistem(endpoint) {
+    let targetIp = IP_ESP32.startsWith('http') ? IP_ESP32 : `http://${IP_ESP32}`;
+    fetch(`${targetIp}${endpoint}`).catch(err => console.error("Gagal kirim ke ESP32:", err));
+  }
+
+  function checkConnection() {
+    let targetIp = IP_ESP32.startsWith('http') ? IP_ESP32 : `http://${IP_ESP32}`;
+    fetch(`${targetIp}/status`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('statusGateway').innerHTML = '✅ Terhubung ke Alat';
+        document.getElementById('statusEsp32').innerHTML = 'Online';
+        document.getElementById('totalData').innerHTML = '1,284';
+        document.getElementById('uptime').innerHTML = '12 hari';
+        document.getElementById('totalSampah').innerHTML = '342 kg';
+        if(document.getElementById('totalSiklus')) document.getElementById('totalSiklus').innerText = data.siklus || 0;
+        if(document.getElementById('totalGram')) document.getElementById('totalGram').innerText = data.totalGram || 0;
+        
+        const statusMotorEl = document.getElementById('statusMotor');
+        const statMesinEl = document.getElementById('statMesin');
+        if (data.motor === 1) {
+          statusMotorEl.className = 'proses';
+          statusMotorEl.innerHTML = 'BERJALAN 🟢';
+          statMesinEl.innerHTML = '🟢 Berjalan';
+        } else {
+          statusMotorEl.className = 'mati';
+          statusMotorEl.innerHTML = 'STANDBY ⚪';
+          statMesinEl.innerHTML = '🟡 Standby';
+        }
+      })
+      .catch(() => {
+        document.getElementById('statusGateway').innerHTML = '🔴 Terputus';
+        document.getElementById('statusEsp32').innerHTML = 'Offline';
+      });
+  }
+  setInterval(checkConnection, 2000);
+  checkConnection();
+
+  // ============================================
+  // 3. TIMER MANUAL YANG SUDAH DIPERBAIKI
+  //    (LANGSUNG TELEPON ESP32 + HITUNG MUNDUR)
+  // ============================================
+  let timerManualInterval = null;
+  let currentTimerSeconds = 0;
+
+  function stopTimerManual() {
+    if (timerManualInterval) {
+      clearInterval(timerManualInterval);
+      timerManualInterval = null;
+    }
+  }
+
+  function stopAllTimers() {
+    stopTimerManual();
+    // Kirim perintah STOP ke ESP32
+    kontrolSistem('/motor/off');
+    
+    const statusMotorEl = document.getElementById('statusMotor');
+    const countdownEl = document.getElementById('countdown');
+    if (statusMotorEl) {
+      statusMotorEl.className = 'mati';
+      statusMotorEl.innerHTML = 'STANDBY ⚪';
+    }
+    if (countdownEl) countdownEl.innerHTML = '';
+    
+    const timerResult = document.getElementById('timerResult');
+    if (timerResult) {
+      timerResult.style.display = 'block';
+      timerResult.innerHTML = '⏹️ Semua timer dihentikan! Motor berhenti.';
+      setTimeout(() => { timerResult.style.display = 'none'; }, 2000);
+    }
+  }
+
+  function setTimerPreset(nilai, unit) {
+    document.getElementById('timerValue').value = nilai;
+    const unitSelect = document.getElementById('timerUnit');
+    if (unit === 'detik') unitSelect.value = 'detik';
+    else if (unit === 'menit') unitSelect.value = 'menit';
+    else if (unit === 'jam') unitSelect.value = 'jam';
+    
+    let displayText = '';
+    if (unit === 'detik') displayText = `${nilai} detik`;
+    else if (unit === 'menit') displayText = `${nilai} menit`;
+    else displayText = `${nilai} jam`;
+    document.getElementById('timerInfo').innerHTML = `⏱️ Siap menjalankan ${displayText}`;
+  }
+
+  function startTimerManual() {
+    let nilai = parseInt(document.getElementById('timerValue').value);
+    const unit = document.getElementById('timerUnit').value;
+    
+    if (isNaN(nilai) || nilai <= 0) {
+      alert('Masukkan nilai timer yang valid!');
+      return;
+    }
+    
+    let durasiDetik = 0;
+    let unitText = '';
+    if (unit === 'detik') {
+      durasiDetik = nilai;
+      unitText = 'detik';
+    } else if (unit === 'menit') {
+      durasiDetik = nilai * 60;
+      unitText = 'menit';
+    } else if (unit === 'jam') {
+      durasiDetik = nilai * 3600;
+      unitText = 'jam';
+    }
+    
+    if (durasiDetik <= 0) {
+      alert('Durasi tidak valid!');
+      return;
+    }
+    
+    // ========== KIRIM PERINTAH KE ESP32 ==========
+    // Ini yang tadinya lupa! Sekarang ESP32 akan mendengar
+    kontrolSistem(`/motor/timer?duration=${durasiDetik}`);
+    
+    stopTimerManual();
+    currentTimerSeconds = durasiDetik;
+    
+    const statusMotorEl = document.getElementById('statusMotor');
+    const countdownEl = document.getElementById('countdown');
+    const timerResult = document.getElementById('timerResult');
+    const timerInfoEl = document.getElementById('timerInfo');
+    
+    if (statusMotorEl) {
+      statusMotorEl.className = 'proses';
+      statusMotorEl.innerHTML = 'BERJALAN 🟢 (TIMER)';
+    }
+    
+    const statMesinEl = document.getElementById('statMesin');
+    if (statMesinEl) statMesinEl.innerHTML = '🟢 Berjalan (Timer)';
+    
+    // Update tampilan countdown awal
+    const jam = Math.floor(currentTimerSeconds / 3600);
+    const menit = Math.floor((currentTimerSeconds % 3600) / 60);
+    const detik = currentTimerSeconds % 60;
+    
+    if (countdownEl) {
+      if (jam > 0) countdownEl.innerHTML = `⏱️ Timer: ${jam} jam ${menit} menit ${detik} detik`;
+      else if (menit > 0) countdownEl.innerHTML = `⏱️ Timer: ${menit} menit ${detik} detik`;
+      else countdownEl.innerHTML = `⏱️ Timer: ${detik} detik`;
+    }
+    
+    if (timerInfoEl) {
+      timerInfoEl.innerHTML = `⏳ Perintah terkirim! Mesin berjalan ${nilai} ${unitText} (${durasiDetik} detik)...`;
+    }
+    
+    if (timerResult) {
+      timerResult.style.display = 'block';
+      timerResult.innerHTML = `✅ Perintah ke ESP32: motor menyala selama ${nilai} ${unitText}!`;
+      setTimeout(() => { if(timerResult) timerResult.style.display = 'none'; }, 3000);
+    }
+    
+    // Tambah siklus di tampilan lokal
+    const totalSiklusEl = document.getElementById('totalSiklus');
+    if (totalSiklusEl) {
+      let currentSiklus = parseInt(totalSiklusEl.innerText) || 0;
+      totalSiklusEl.innerText = currentSiklus + 1;
+    }
+    
+    // Hitung mundur di layar (visual saja, ESP32 sudah punya timer sendiri)
+    timerManualInterval = setInterval(() => {
+      if (currentTimerSeconds <= 1) {
+        stopTimerManual();
+        
+        if (statusMotorEl) {
+          statusMotorEl.className = 'mati';
+          statusMotorEl.innerHTML = 'STANDBY ⚪';
+        }
+        if (countdownEl) countdownEl.innerHTML = '';
+        if (statMesinEl) statMesinEl.innerHTML = '🟡 Standby';
+        
+        if (timerInfoEl) {
+          timerInfoEl.innerHTML = `✅ Timer selesai! Mesin berhenti.`;
+        }
+        
+        if (timerResult) {
+          timerResult.style.display = 'block';
+          timerResult.innerHTML = '☑ Timer selesai! Motor sudah berhenti.';
+          setTimeout(() => { if(timerResult) timerResult.style.display = 'none'; }, 3000);
+        }
+      } else {
+        currentTimerSeconds--;
+        const jam2 = Math.floor(currentTimerSeconds / 3600);
+        const menit2 = Math.floor((currentTimerSeconds % 3600) / 60);
+        const detik2 = currentTimerSeconds % 60;
+        if (countdownEl) {
+          if (jam2 > 0) countdownEl.innerHTML = `⏱️ Timer: ${jam2} jam ${menit2} menit ${detik2} detik`;
+          else if (menit2 > 0) countdownEl.innerHTML = `⏱️ Timer: ${menit2} menit ${detik2} detik`;
+          else countdownEl.innerHTML = `⏱️ Timer: ${detik2} detik`;
+        }
+      }
+    }, 1000);
+  }
+
+  // ============================================
+  // 4. FUNGSI UNTUK MODE BERAT (script.js asli)
+  // ============================================
+  window.setGram = function(gram) {
+    const inputGram = document.getElementById('inputGram');
+    if (inputGram) {
+      inputGram.value = gram;
+      window.hitungEstimasi();
+    }
+  };
+
+  window.hitungEstimasi = function() {
+    const gram = parseInt(document.getElementById('inputGram')?.value) || 0;
+    const estimasiEl = document.getElementById('estimasiWaktu');
+    if (estimasiEl) {
+      if (gram <= 0) {
+        estimasiEl.innerHTML = 'Masukkan berat sampah (gram)';
+      } else {
+        const detik = Math.ceil(gram * 0.36);
+        const menit = Math.ceil(detik / 60);
+        estimasiEl.innerHTML = `📊 Estimasi waktu: ${detik} detik (${menit} menit) untuk ${gram} gram`;
+      }
+    }
+  };
+
+  window.prosesGram = function() {
+    const gram = parseInt(document.getElementById('inputGram')?.value) || 0;
+    if (gram <= 0) {
+      alert('Masukkan berat sampah terlebih dahulu!');
+      return;
+    }
+    const durasiDetik = Math.ceil(gram * 0.36);
+    // Kirim ke ESP32
+    kontrolSistem(`/motor/timer?duration=${durasiDetik}`);
+    
+    const timerResult = document.getElementById('timerResult');
+    if (timerResult) {
+      timerResult.style.display = 'block';
+      timerResult.innerHTML = `✅ ${gram} gram sampah diproses selama ${durasiDetik} detik!`;
+      setTimeout(() => { timerResult.style.display = 'none'; }, 3000);
+    }
+    
+    const totalGramEl = document.getElementById('totalGram');
+    if (totalGramEl) {
+      let currentGram = parseInt(totalGramEl.innerText) || 0;
+      totalGramEl.innerText = currentGram + gram;
+    }
+    
+    const totalSiklusEl = document.getElementById('totalSiklus');
+    if (totalSiklusEl) {
+      let currentSiklus = parseInt(totalSiklusEl.innerText) || 0;
+      totalSiklusEl.innerText = currentSiklus + 1;
+    }
+  };
+
+  window.kontrolManual = function(perintah) {
+    if (perintah === 'on') {
+      kontrolSistem('/motor/on');
+      const statusMotorEl = document.getElementById('statusMotor');
+      if (statusMotorEl) {
+        statusMotorEl.className = 'hidup';
+        statusMotorEl.innerHTML = 'MANUAL ON 🔴';
+      }
+    } else if (perintah === 'off') {
+      kontrolSistem('/motor/off');
+      stopTimerManual();
+      const statusMotorEl = document.getElementById('statusMotor');
+      if (statusMotorEl) {
+        statusMotorEl.className = 'mati';
+        statusMotorEl.innerHTML = 'STANDBY ⚪';
+      }
+      const countdownEl = document.getElementById('countdown');
+      if (countdownEl) countdownEl.innerHTML = '';
+    }
+  };
+</script>
+
+<!-- SCRIPT.JS ASLI TETAP DIPANGGIL (jika ada fungsi tambahan) -->
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -170,43 +170,56 @@ const PROJECTS = [
     ],
   },
   {
-    id: "solar-monitoring",
-    name: "Smart EcoSystem — Solar Panel Monitoring System",
+    id: "pa2-smart-ecosystem",
+    name: "Smart EcoSystem: Pengolahan Sampah Organik & Monitoring IoT (PA2)",
     folderColor: "color-amber",
-    category: "IoT & Real-Time Web Dashboard",
-    period: "IoT & Academic Final Project · Team Project",
-    role: "Dashboard Developer & Hardware Tester",
-    shortDesc: "Dashboard pemantauan daya panel surya berbasis mikrokontroler ESP32 dan sensor INA219 via protokol WebSocket real-time dengan mode simulasi pengujian.",
-    about: "Smart EcoSystem adalah sistem IoT terpadu yang memantau performa pembangkit listrik tenaga surya secara akurat. Data tegangan, arus, daya, dan akumulasi energi ditransmisikan secara kontinu tanpa reload browser berkat komunikasi WebSocket berlatensi rendah.",
+    category: "IoT, Solar Energy & Web Dashboard",
+    period: "Proyek Akhir 2 (PA2) · Tim 6 Orang · IT Del",
+    role: "IoT Web Dashboard Developer & Hardware-Software Integration",
+    posterThumb: "pa2-poster.jpg",
+    shortDesc: "Rancang bangun sistem pengolah sampah organik menjadi pupuk cair/padat bertenaga panel surya, dilengkapi monitoring suhu & kelembapan real-time berbasis ESP32, Firebase, dan Web Dashboard.",
+    about: "Proyek Akhir 2 (PA2) di Institut Teknologi Del yang dirancang dan dibangun untuk mengatasi penumpukan sampah organik dari kantin dan taman kampus. Sistem ini mengintegrasikan mesin pencacah bertenaga panel surya dan aki 12V, drum fermentasi tertutup, serta sistem pemantauan kondisi suhu dan kelembapan fermentasi secara real-time menggunakan mikrokontroler ESP32 yang terhubung ke cloud database Firebase dan antarmuka web dashboard interaktif.",
     features: [
-      "Sensor INA219 Presisi: Pengukuran tegangan (V), arus listrik (A), daya (W), dan perhitungan konsumsi energi kumulatif (Wh/kWh).",
-      "Komunikasi WebSocket Real-Time: Pembaruan grafik instan pada antarmuka web tanpa membebani bandwidth jaringan lokal.",
-      "Mode Simulasi & QA: Fitur simulasi data tegangan untuk pengujian software dashboard tanpa ketergantungan perangkat keras.",
-      "Responsive Monitoring UI: Dashboard interaktif dengan gauge visual dan notifikasi ambang batas daya kritis."
+      "Mekanisme Pencacahan Bertenaga Surya: Ditenagai panel surya dan Solar Charge Controller (SCC) dengan aki 12V untuk menghancurkan sampah organik secara mekanis.",
+      "Monitoring Suhu & Kelembapan Real-Time: Menggunakan mikrokontroler ESP32 dan sensor terintegrasi untuk memantau proses penguraian/fermentasi pupuk secara akurat.",
+      "Integrasi Cloud Firebase & Wi-Fi: Pengiriman data telemetri sensor dari mikrokontroler langsung ke database cloud Firebase secara berkala dan berlatensi rendah.",
+      "Web Dashboard Smart EcoSystem: Antarmuka web komprehensif (halaman Beranda, Mesin, dan Sensor) yang menyajikan visualisasi data, status mesin, dan parameter lingkungan secara visual.",
+      "Pupuk Organik Cair & Padat Berkelanjutan: Mengurangi limbah organik kampus sekaligus menghasilkan nilai guna pupuk bagi pertanian dan perkebunan."
     ],
-    tags: ["ESP32", "Sensor INA219", "WebSocket", "JavaScript", "C++ (Arduino IDE)", "Data Visualization", "IoT Dashboard"],
+    tags: ["ESP32", "IoT & Firebase", "Web Dashboard (HTML/CSS/JS)", "Solar Panel & SCC", "Sensor Suhu & Kelembapan", "Proyek Akhir (PA2)"],
     slides: [
       {
-        title: "Live Solar Energy Dashboard Interface",
-        caption: "Dashboard pemantauan metrik tegangan, kuat arus, daya watt, dan grafik output energi surya secara real-time.",
+        title: "Official Scientific Poster: Smart EcoSystem (PA2)",
+        caption: "Poster resmi Proyek Akhir 2 (PA2) Kelompok 16 D3 Teknologi Komputer IT Del: Latar belakang, alur sistem energi surya, mekanisme pencacah, alur kerja IoT ESP32, dan hasil pupuk cair/padat.",
+        img: "pa2-poster.jpg",
+      },
+      {
+        title: "Smart EcoSystem Web Dashboard Overview",
+        caption: "Tampilan beranda web monitoring Smart EcoSystem: pengenalan sistem, status alat pengolah, dan navigasi pemantauan mesin serta sensor.",
         svgType: "solardash",
       },
       {
-        title: "Hardware Prototype: ESP32 & INA219 Sensor Setup",
-        caption: "Integrasi modul mikrokontroler ESP32 dengan sensor arus/tegangan INA219 dan sirkuit panel surya.",
+        title: "Sistem Monitoring Sensor & Mesin Pencacah",
+        caption: "Halaman monitoring parameter sensor kelembapan dan suhu real-time serta kendali aktuator mesin berbasis ESP32 & Firebase.",
         svgType: "hardware",
       },
     ],
     resources: [
       {
-        label: "Hardware & Project Docs",
-        sub: "PDF Documentation",
-        url: "#",
+        label: "View Full Scientific Poster",
+        sub: "Poster Ilmiah PA2 (Gambar HD)",
+        url: "pa2-poster.jpg",
         type: "doc",
       },
       {
-        label: "Firmware & Web Code",
-        sub: "GitHub Repository",
+        label: "Open Live Web Dashboard",
+        sub: "Buka Prototipe Web Asli",
+        url: "projects/pa2/PA2/index.html",
+        type: "video",
+      },
+      {
+        label: "Source Code Repository",
+        sub: "GitHub Project",
         url: "https://github.com/gracia-angelica",
         type: "code",
       },
@@ -405,25 +418,39 @@ function render() {
   ).join("");
 
   // Render Folder Pocket Cards (Inspirasi 1)
-  $("projectsList").innerHTML = PROJECTS.map(
-    (p, idx) => `
+  $("projectsList").innerHTML = PROJECTS.map((p, idx) => {
+    const poster = p.posterThumb || p.slides.find(s => s.img)?.img;
+    const paper1Content = poster
+      ? `<img src="${poster}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:top;filter:brightness(0.85)" />`
+      : `<span>${p.slides[0]?.title || p.name}</span>`;
+    const paper2Content = `<span>${p.slides[1]?.title || "Architecture & System"}</span>`;
+    const paper3Content = poster
+      ? `<div style="position:relative;width:100%;height:100%;overflow:hidden">
+           <img src="${poster}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:top" />
+           <div style="position:absolute;bottom:0;left:0;right:0;padding:6px 8px;background:linear-gradient(to top, rgba(0,0,0,0.85), transparent);font-size:10.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+             ${p.name}
+           </div>
+         </div>`
+      : `<span style="font-weight:700;color:#fff">${p.name}</span>`;
+
+    return `
     <div class="folder-card ${p.folderColor}" onclick="openProjectModal(${idx})">
       <div class="folder-back"></div>
       
       <div class="folder-papers">
         <div class="folder-paper paper-1">
           <div class="paper-img" style="background:linear-gradient(135deg,#1e3a8a,#0f172a)">
-            <span>${p.slides[0]?.title || p.name}</span>
+            ${paper1Content}
           </div>
         </div>
         <div class="folder-paper paper-2">
           <div class="paper-img" style="background:linear-gradient(135deg,#0284c7,#0f172a)">
-            <span>${p.slides[1]?.title || "Architecture & System"}</span>
+            ${paper2Content}
           </div>
         </div>
         <div class="folder-paper paper-3">
           <div class="paper-img" style="background:linear-gradient(135deg,#312e81,#0f172a)">
-            <span style="font-weight:700;color:#fff">${p.name}</span>
+            ${paper3Content}
           </div>
         </div>
       </div>
@@ -437,12 +464,12 @@ function render() {
           <h3 class="pocket-title">${p.name}</h3>
         </div>
         <div class="pocket-footer">
-          <span>View Case Study & Resources</span>
+          <span>${poster ? "View Poster & Case Study" : "View Case Study & Resources"}</span>
           ${I.arrow}
         </div>
       </div>
-    </div>`
-  ).join("");
+    </div>`;
+  }).join("");
 
   // Render Certificates (Clean state)
   $("certList").innerHTML = CERTIFICATES.length
@@ -535,7 +562,7 @@ function renderModalContent(p) {
       <div class="modal-slider-viewport">
         ${p.slides.map((s, idx) => `
           <div class="slide-item ${idx === 0 ? "active" : ""}">
-            ${s.img ? `<img src="${s.img}" alt="${s.title}" />` : getSlideIllustration(s.svgType, s.title)}
+            ${s.img ? `<a href="${s.img}" target="_blank" rel="noreferrer" title="Klik untuk membuka poster / screenshot resolusi penuh" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:zoom-in"><img src="${s.img}" alt="${s.title}" style="max-height:100%;max-width:100%;object-fit:contain" /></a>` : getSlideIllustration(s.svgType, s.title)}
           </div>
         `).join("")}
 

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Beranda - Smart EcoSystem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* BACKGROUND DIKEMBALIKAN KE TEMPLATE ASLI */
+    body { font-family: 'Inter', sans-serif; background: #eef4ea; color: #1a3a22; line-height: 1.6; overflow-x: hidden;}
+
+    /* ============================================================
+       NAVBAR 100% IDENTIK DENGAN TEMPLATE ASLI
+       ============================================================ */
+    .top-navbar {
+      background: #ffffff;
+      box-shadow: 0 2px 12px rgba(0, 32, 0, 0.06);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #cde2cf;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1a6e3a, #2d9e55);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      list-style: none;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1f452f;
+      font-size: 0.9rem;
+    }
+
+    .nav-links li a.active {
+      background: #2c8c4a;
+      color: white;
+      box-shadow: 0 4px 10px rgba(44, 140, 74, 0.25);
+    }
+
+    .nav-links li a:not(.active):hover {
+      background: #e1f0e4;
+      transform: translateY(-2px);
+    }
+    /* ============================================================ */
+
+    /* HERO SECTION (Jarak atas dikurangi agar lebih rapi) */
+    .hero-section { position: relative; padding: 2.5rem 2rem 3.5rem; text-align: center; }
+    .hero-content { max-width: 1000px; margin: 0 auto; }
+    .badge-top { display: inline-block; background: #eaf5e6; color: #124d26; font-size: 0.8rem; font-weight: 800; padding: 6px 15px; border-radius: 30px; letter-spacing: 1px; margin-bottom: 1rem; border: 1px solid #cde2cf;}
+    .hero-section h1 { font-size: 3rem; font-weight: 900; color: #124d26; line-height: 1.2; margin-bottom: 1.2rem; letter-spacing: -1px;}
+    .hero-section p { font-size: 1.15rem; color: #4a7a59; font-weight: 500; margin-bottom: 1.5rem; }
+
+    /* KOTAK JAM DI KANAN ATAS HERO SECTION */
+    .clock-box {
+      position: absolute;
+      top: 2.5rem;
+      right: 3rem;
+      background: #ffffff;
+      color: #124d26;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #cde2cf;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      letter-spacing: 1px;
+    }
+
+    /* KONTAINER UTAMA (Diperlebar jadi 1350px agar tidak berjarak lebar di kiri-kanan) */
+    .about-container { max-width: 1350px; margin: 0 auto 5rem; padding: 0 2rem; display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center; }
+    .about-text h2 { font-size: 2rem; font-weight: 800; color: #124d26; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px; }
+    .about-text p { font-size: 1.05rem; color: #3a6b48; margin-bottom: 1.5rem; text-align: justify; }
+    
+    .highlight-box { background: white; border-left: 5px solid #2c8c4a; padding: 1.5rem; border-radius: 0 1rem 1rem 0; box-shadow: 0 5px 15px rgba(0,0,0,0.03); margin-top: 2rem;}
+    .highlight-box h4 { color: #124d26; margin-bottom: 8px; font-size: 1.1rem; }
+
+    /* GAMBAR ALAT UTAMA */
+    .main-image-wrapper { background: white; padding: 1.5rem; border-radius: 2rem; box-shadow: 0 20px 50px rgba(18, 77, 38, 0.08); border: 1px solid #cde2cf; position: relative;}
+    .main-image { width: 100%; height: auto; max-height: 550px; object-fit: contain; border-radius: 1rem; }
+    .main-image-caption { text-align: center; margin-top: 1rem; font-weight: 700; color: #2c8c4a; font-size: 0.9rem; }
+
+    /* FITUR UNGGULAN GRID */
+    .features-section { padding: 3rem 2rem 5rem;}
+    .features-container { max-width: 1350px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-header h2 { font-size: 2.2rem; font-weight: 900; color: #124d26; }
+    .section-header p { color: #5a7e64; font-size: 1.1rem; margin-top: 10px; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .feature-card { background: white; padding: 2.5rem; border-radius: 1.5rem; border: 1px solid #cde2cf; transition: 0.3s; position: relative; overflow: hidden; z-index: 1;}
+    .feature-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(18, 77, 38, 0.1);}
+    .feature-icon-wrapper { width: 60px; height: 60px; background: #124d26; color: white; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 8px 15px rgba(18, 77, 38, 0.3); }
+    .feature-card h3 { font-size: 1.3rem; color: #124d26; margin-bottom: 1rem; font-weight: 800; }
+    .feature-card p { font-size: 0.95rem; color: #4a7a59; line-height: 1.6; }
+
+    /* GALERI TAHAPAN & HASIL */
+    .gallery-section { padding: 2rem 2rem 5rem; max-width: 1350px; margin: 0 auto; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .gallery-card { background: white; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); transition: 0.3s; display: flex; flex-direction: column; border: 1px solid #cde2cf;}
+    .gallery-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(18, 77, 38, 0.15); border-color: #2c8c4a; }
+    .gallery-img-container { width: 100%; height: 300px; background: #000; position: relative;}
+    .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: 0.5s; }
+    .gallery-card:hover .gallery-img { opacity: 1; transform: scale(1.08); }
+    .gallery-badge { position: absolute; top: 15px; left: 15px; background: rgba(18, 77, 38, 0.9); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; z-index: 2;}
+    .gallery-content { padding: 2rem; flex: 1; display: flex; flex-direction: column; background: white; z-index: 2;}
+    .gallery-content h3 { font-size: 1.25rem; color: #124d26; margin-bottom: 10px; font-weight: 800; }
+    .gallery-content p { font-size: 0.95rem; color: #5a7e64; line-height: 1.6; text-align: justify;}
+
+    /* BOTTOM STATUS BAR & FOOTER */
+    .bottom-wrapper { padding: 0 2rem; max-width: 1350px; margin: 0 auto; }
+    
+    .connection-bar { background: #124d26; color: white; padding: 1.2rem 2.5rem; border-radius: 1rem 1rem 0 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; box-shadow: 0 -5px 20px rgba(18, 77, 38, 0.15); border-bottom: 1px solid #1a6e3a;}
+    .status-left { display: flex; align-items: center; gap: 12px; }
+    .status-dot { height: 12px; width: 12px; background-color: #f1c40f; border-radius: 50%; display: inline-block; animation: blink 1.5s infinite; box-shadow: 0 0 8px #f1c40f;}
+    .status-dot.online { background-color: #2ecc71; box-shadow: 0 0 8px #2ecc71; }
+    .status-dot.offline { background-color: #e74c3c; animation: none; box-shadow: 0 0 8px #e74c3c;}
+    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+    .footer { background: #0f3d1e; text-align: center; padding: 2rem; color: #a1c9a1; font-size: 0.85rem; border-radius: 0 0 1rem 1rem; margin-bottom: 2rem;}
+    .footer strong { color: white; font-weight: 700; }
+
+    @media (max-width: 992px) {
+      .about-container { grid-template-columns: 1fr; gap: 2rem; }
+      .features-grid, .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+      .hero-section h1 { font-size: 2.2rem; }
+      .clock-box { position: static; display: inline-flex; margin-top: 1rem; justify-content: center; }
+      .connection-bar { flex-direction: column; gap: 15px; text-align: center; justify-content: center;}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="top-navbar">
+  <div class="logo"><i class="fas fa-leaf"></i> EcoSystem</div>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+    <li><a href="mesin.html"><i class="fas fa-industry"></i> Kendali Mesin</a></li>
+    <li><a href="sensor.html"><i class="fas fa-chart-line"></i> Monitoring Sensor</a></li>
+  </ul>
+</nav>
+
+<header class="hero-section">
+  
+  <div class="clock-box">
+    <i class="far fa-clock" style="color: #2c8c4a;"></i> 
+    <span id="liveTime">--:--:--</span>
+  </div>
+
+  <div class="hero-content">
+    <span class="badge-top"><i class="fas fa-microchip"></i> INOVASI IOT 2026</span>
+    <h1>Rancang Bangun Sistem Pengolahan Sampah Organik Cerdas</h1>
+    <p>Revolusi pengolahan limbah organik menjadi pupuk cair dan padat berkualitas tinggi melalui integrasi teknologi mekanik, Internet of Things (IoT), dan panel surya mandiri.</p>
+  </div>
+</header>
+
+<section class="about-container">
+  <div class="about-text">
+    <h2><i class="fas fa-recycle"></i> Transformasi Pengelolaan Limbah</h2>
+    <p>
+      Pengelolaan sampah organik di lingkungan kampus seringkali menjadi tantangan. Proses penguraian secara alami konvensional membutuhkan waktu yang sangat lama—hingga <strong>30 hari</strong>—serta sulit dipantau apakah kondisi lingkungan sudah mendukung aktivitas mikroorganisme atau belum.
+    </p>
+    <p>
+      Sistem ini hadir sebagai solusi teknologi tepat guna yang canggih. Dengan memadukan mekanisme pencacahan otomatis untuk memperkecil partikel sampah, serta ruang fermentasi tertutup, sistem ini berhasil <strong>mempercepat waktu produksi kompos dari 30 hari menjadi hanya 3 hari saja</strong>.
+    </p>
+    
+    <div class="highlight-box">
+      <h4><i class="fas fa-chart-pie"></i> Monitoring Terukur & Presisi</h4>
+      <p style="margin-bottom: 0;">
+        Tidak ada lagi tebak-tebakan. Seluruh proses penguraian dikawal ketat oleh sensor suhu (DS18B20) dan sensor kelembapan kapasitif. Mikrokontroler ESP32 memproses data tersebut dan mengirimkannya ke <i>database</i> cloud, memungkinkan Anda memantau "kesehatan" kompos secara <i>real-time</i> dari layar perangkat Anda.
+      </p>
+    </div>
+  </div>
+
+  <div class="main-image-wrapper">
+    <img src="drum.jpg" alt="Prototipe Reaktor Kompos" class="main-image">
+    <div class="main-image-caption"><i class="fas fa-check-circle"></i> Wujud Fisik Prototipe Reaktor IoT</div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="features-container">
+    <div class="section-header">
+      <h2>Pilar Keunggulan Sistem</h2>
+      <p>Tiga elemen utama yang membuat reaktor ini beroperasi secara efisien dan mandiri.</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-wrapper"><i class="fas fa-cogs"></i></div>
+        <h3>Akselerasi Pencacahan</h3>
+        <p>Motor DC 12V 3500 RPM yang terintegrasi dengan poros pisau baja memotong sampah sisa sayuran, rumput, dan daun menjadi partikel halus. Proses ini memperluas area permukaan organik, membuat mikroorganisme bekerja puluhan kali lipat lebih cepat.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrapper"><i class="fas fa-wifi"></i></div>
+        <h3>Telemetri IoT Real-Time</h3>
+        <p>Diotaki oleh mikrokontroler canggih ESP32. Sistem ini terus-menerus membaca kelembapan dan suhu inti reaktor, menyimpannya di database Supabase, dan menampilkannya di dashboard web ini. Kapan pun dan di mana pun, Anda memegang kendali.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrapper"><i class="fas fa-solar-panel"></i></div>
+        <h3>Kemandirian Energi Hijau</h3>
+        <p>Tidak bergantung pada stopkontak PLN. Sistem ini murni digerakkan oleh Panel Surya 50 Wp. Energi cahaya matahari dikonversi, distabilkan oleh SCC 60A, dan disimpan di Aki 12V 3.5Ah, menciptakan siklus pengolahan yang 100% ramah lingkungan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="section-header" style="margin-bottom: 3rem;">
+    <h2>Tahapan & Hasil Produksi</h2>
+    <p>Bukti nyata efektivitas proses dari sampah mentah hingga menjadi pupuk berkualitas.</p>
+  </div>
+
+  <div class="gallery-grid">
+    <div class="gallery-card">
+      <div class="gallery-img-container">
+        <span class="gallery-badge">TAHAP 01</span>
+        <img src="piso.jpg" alt="Proses Pencacahan" class="gallery-img">
+      </div>
+      <div class="gallery-content">
+        <h3>Eksekusi Pencacahan</h3>
+        <p>Sampah organik basah yang dimasukkan ke dalam drum langsung dihancurkan oleh bilah pisau rotasi tinggi. Hasil cacahan yang seragam adalah kunci utama keberhasilan fermentasi kilat 3 hari.</p>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-img-container">
+        <span class="gallery-badge">HASIL AKHIR</span>
+        <img src="kompos padat.jpg" alt="Kompos Padat" class="gallery-img">
+      </div>
+      <div class="gallery-content">
+        <h3>Pupuk Kompos Padat</h3>
+        <p>Melalui suhu reaktor yang terjaga dengan dukungan Heater terpadu, sampah terurai menjadi kompos padat bertekstur gembur, berwarna gelap, dan kaya akan unsur hara penyubur tanah.</p>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-img-container">
+        <span class="gallery-badge">HASIL EKSTRAK</span>
+        <img src="cair.jpg" alt="Pupuk Cair POC" class="gallery-img">
+      </div>
+      <div class="gallery-content">
+        <h3>Pupuk Organik Cair (POC)</h3>
+        <p>Cairan lindi alami hasil aktivitas mikroorganisme tersaring murni ke dasar reaktor berkat pelat pemisah internal. POC berwarna pekat ini siap dikucurkan langsung melalui keran utama.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bottom-wrapper">
+  
+  <div class="connection-bar">
+    <div class="status-left">
+      <span class="status-dot" id="dotESP32"></span> 
+      <span style="font-weight: 700; letter-spacing: 0.5px;">Status Hardware:</span> 
+      <span id="textESP32">Mencari koneksi ke alat...</span>
+    </div>
+    <div style="font-family: monospace; font-size: 1rem; font-weight: 600;">
+      <i class="fas fa-network-wired" style="margin-right: 5px;"></i> IP ESP32: <span id="ipDisplay">10.12.128.96</span>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p><strong>&copy; 2026 Smart EcoSystem</strong> — Hak Cipta Dilindungi.<br>Proyek Akhir Institut Teknologi Del - D3 Teknologi Komputer.</p>
+  </footer>
+
+</div>
+
+<script>
+  // FUNGSI 1: MENGHIDUPKAN JAM REAL-TIME
+  function updateTime() {
+    const timeDisplay = document.getElementById('liveTime');
+    const now = new Date();
+    timeDisplay.innerText = now.toLocaleTimeString('id-ID', {hour12: false});
+  }
+  setInterval(updateTime, 1000);
+  updateTime(); // Panggil sekali di awal agar tidak delay 1 detik
+
+  // FUNGSI 2: CEK KONEKSI ESP32
+  const IP_ESP32 = localStorage.getItem('esp32Ip') || '10.12.128.96';
+  document.getElementById('ipDisplay').innerText = IP_ESP32;
+
+  function checkConnection() {
+    let targetIp = IP_ESP32;
+    if (!targetIp.startsWith('http')) targetIp = `http://${targetIp}`;
+
+    fetch(`${targetIp}/status`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('dotESP32').className = 'status-dot online';
+        document.getElementById('textESP32').innerText = 'Alat Terhubung & Berjalan Stabil';
+      })
+      .catch(err => {
+        document.getElementById('dotESP32').className = 'status-dot offline';
+        document.getElementById('textESP32').innerText = 'Alat Offline / Terputus';
+      });
+  }
+
+  checkConnection();
+  setInterval(checkConnection, 3000);
+</script>
+
+</body>
+</html>
