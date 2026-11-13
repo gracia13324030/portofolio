@@ -624,8 +624,8 @@ a { color: inherit; }
 .modal-slider-viewport {
   position: relative;
   width: 100%;
-  min-height: 380px;
-  max-height: 480px;
+  min-height: 440px;
+  max-height: 580px;
   display: flex;
   align-items: center;
   justify-content: center;
